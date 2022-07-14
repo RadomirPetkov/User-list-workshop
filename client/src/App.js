@@ -1,8 +1,16 @@
+import { Header } from "./components/common/Header";
+import "./App.css"
+import { Footer } from "./components/common/Footer";
 
 function App() {
   return (
-    <div className="App">
-      
+    <div>
+      <Header />
+      <main className="main">
+
+
+      </main>
+      <Footer />
     </div>
   );
 }
