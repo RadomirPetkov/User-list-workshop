@@ -1,20 +1,35 @@
 import { UserItem } from "./UserItem"
 import { useState, useEffect } from "react"
-import { getAllData } from "../../services/userService";
+import { getAllData, getOneUser } from "../../services/userService";
+import { UserDetails } from "./UserDetails";
 
 export const UserList = (props) => {
   const [users, setUsers] = useState([])
-
+  const [user, setUser] = useState([])
+  const [page, setPage] = useState("all")
 
   useEffect(() => {
     getAllData()
       .then(users => setUsers(users))
   }, [])
-console.log(users);
-  
+
+  const clickHandler = (userId) => {
+    getOneUser(userId)
+      .then( data =>
+        setUser(data.user),
+        setPage("edit")
+      )
+  }
+
+  const closeHandler = () => {
+    setPage(`all`)
+  }
+
 
   return (
     <div className="table-wrapper">
+
+      {page === "edit" && <UserDetails user={user} onClose={closeHandler} />}
 
       <table className="table">
         <thead>
@@ -73,8 +88,8 @@ console.log(users);
         </thead>
         <tbody>
           {/* <!-- Table row component --> */}
-          {users.map(user=><UserItem key={user._id} user={user}/>)}
-          
+          {users.map(user => <UserItem key={user._id} user={user} clickHandler={clickHandler} />)}
+
         </tbody>
       </table>
     </div>
