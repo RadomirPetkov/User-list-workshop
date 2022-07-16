@@ -1,7 +1,8 @@
 import { UserItem } from "./UserItem"
 import { useState, useEffect } from "react"
-import { getAllData, getOneUser } from "../../services/userService";
+import { editUser, getAllData, getOneUser } from "../../services/userService";
 import { UserDetails } from "./UserDetails";
+import { UserEdit } from "./UserEdit";
 
 export const UserList = (props) => {
   const [users, setUsers] = useState([])
@@ -11,13 +12,14 @@ export const UserList = (props) => {
   useEffect(() => {
     getAllData()
       .then(users => setUsers(users))
-  }, [])
+  }, [page])
 
-  const clickHandler = (userId) => {
+  const clickHandler = (userId, page) => {
     getOneUser(userId)
-      .then( data =>
-        setUser(data.user),
-        setPage("edit")
+      .then(data => {
+        setUser(data.user)
+        setPage(`${page}`)
+      }
       )
   }
 
@@ -25,11 +27,37 @@ export const UserList = (props) => {
     setPage(`all`)
   }
 
+  const editHandler = (e, userId) => {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const {
+      firstName,
+      lastName,
+      email,
+      imageUrl,
+      phoneNumber,
+      ...address
+    } = Object.fromEntries(formData);
+
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      imageUrl,
+      phoneNumber,
+      address
+    }
+
+    editUser(userId, userData)
+    setPage(`all`)
+
+  }
 
   return (
     <div className="table-wrapper">
 
-      {page === "edit" && <UserDetails user={user} onClose={closeHandler} />}
+      {page === "details" && <UserDetails user={user} onClose={closeHandler} />}
+      {page === "edit" && <UserEdit user={user} onClose={closeHandler} onEdit={editHandler} />}
 
       <table className="table">
         <thead>
