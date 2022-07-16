@@ -1,9 +1,10 @@
 import { UserItem } from "./UserItem"
 import { useState, useEffect } from "react"
-import { addUser, editUser, getAllData, getOneUser } from "../../services/userService";
+import { addUser, deleteUser, editUser, getAllData, getOneUser } from "../../services/userService";
 import { UserDetails } from "./UserDetails";
 import { UserEdit } from "./UserEdit";
 import { UserAdd } from "./UserAdd";
+import { UserDelete } from "./UserDelete";
 
 export const UserList = (props) => {
   const [users, setUsers] = useState([])
@@ -58,12 +59,18 @@ export const UserList = (props) => {
     }
 
   }
+const onDeleteUser = (userId) =>{
+  deleteUser(userId)
+  setPage(`all`)
+
+}
 
   return (
     <>
       <div className="table-wrapper">
 
         {page === "details" && <UserDetails user={user} onClose={closeHandler} />}
+        {page === "delete" && <UserDelete user={user} onClose={closeHandler} onDelete={onDeleteUser}/>}
         {page === "edit" && <UserEdit user={user} onClose={closeHandler} onEdit={addAndEditHandler} />}
         {page === "add" && <UserAdd onClose={closeHandler} onAdd={addAndEditHandler} />}
 
