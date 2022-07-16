@@ -15,7 +15,7 @@ export const UserEdit = ({user, onClose, onEdit}) =>{
                 </svg>
               </button>
             </header>
-            <form onSubmit={(e)=>{onEdit(e, user._id)}}>
+            <form onSubmit={(e)=>{onEdit(e, user._id, "edit")}}>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="firstName" >First name</label>
