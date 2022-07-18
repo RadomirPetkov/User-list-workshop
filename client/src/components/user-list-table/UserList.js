@@ -59,20 +59,24 @@ export const UserList = (props) => {
     }
 
   }
-const onDeleteUser = (userId) =>{
-  deleteUser(userId)
-  setPage(`all`)
+  const onDeleteUser = (userId) => {
+    deleteUser(userId)
+    setPage(`all`)
+  }
 
-}
+  const createHandler = (userData) => {
+    const result = addUser(userData)
+      .then(setPage(`all`))
+  }
 
   return (
     <>
       <div className="table-wrapper">
 
         {page === "details" && <UserDetails user={user} onClose={closeHandler} />}
-        {page === "delete" && <UserDelete user={user} onClose={closeHandler} onDelete={onDeleteUser}/>}
+        {page === "delete" && <UserDelete user={user} onClose={closeHandler} onDelete={onDeleteUser} />}
         {page === "edit" && <UserEdit user={user} onClose={closeHandler} onEdit={addAndEditHandler} />}
-        {page === "add" && <UserAdd onClose={closeHandler} onAdd={addAndEditHandler} />}
+        {page === "add" && <UserAdd onClose={closeHandler} onCreate={createHandler} />}
 
         <table className="table">
           <thead>
