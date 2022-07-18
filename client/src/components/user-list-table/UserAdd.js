@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 
 export const UserAdd = ({ onClose, onCreate }) => {
+  const [errors, setErrors] = useState({})
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
@@ -28,6 +29,14 @@ export const UserAdd = ({ onClose, onCreate }) => {
     const userData = { firstName, lastName, email, phoneNumber, imageUrl, address }
     onCreate(userData)
   }
+  const minLength = (e, length) => {
+    console.log(e.target.value);
+    setErrors(state => (
+      {
+        ...state,
+        [e.target.name]: e.target.value.length < length
+      }))
+  }
 
   return (
     <div className="overlay">
@@ -51,21 +60,23 @@ export const UserAdd = ({ onClose, onCreate }) => {
                 <label htmlFor="firstName">First name</label>
                 <div className="input-wrapper">
                   <span><i className="fa-solid fa-user"></i></span>
-                  <input id="firstName" name="firstName" type="text" value={values.firstName} onChange={clickHandler} />
+                  <input id="firstName" name="firstName" type="text" value={values.firstName} onChange={clickHandler} onBlur={(e) => minLength(e, 3)} />
                 </div>
-                <p className="form-error">
-                  First name should be at least 3 characters long!
-                </p>
+                {errors.firstName &&
+                  <p className="form-error">
+                    First name should be at least 3 characters long!
+                  </p>}
               </div>
               <div className="form-group">
                 <label htmlFor="lastName">Last name</label>
                 <div className="input-wrapper">
                   <span><i className="fa-solid fa-user"></i></span>
-                  <input id="lastName" name="lastName" type="text" value={values.lastName} onChange={clickHandler} />
+                  <input id="lastName" name="lastName" type="text" value={values.lastName} onChange={clickHandler} onBlur={(e) => minLength(e, 3)} />
                 </div>
-                <p className="form-error">
-                  Last name should be at least 3 characters long!
-                </p>
+                {errors.lastName &&
+                  <p className="form-error">
+                    Last name should be at least 3 characters long!
+                  </p>}
               </div>
             </div>
 
@@ -74,17 +85,19 @@ export const UserAdd = ({ onClose, onCreate }) => {
                 <label htmlFor="email">Email</label>
                 <div className="input-wrapper">
                   <span><i className="fa-solid fa-envelope"></i></span>
-                  <input id="email" name="email" type="text" value={values.emailName} onChange={clickHandler} />
+                  <input id="email" name="email" type="text" value={values.email} onChange={clickHandler} onBlur={(e) => minLength(e, 3)} />
                 </div>
-                <p className="form-error">Email is not valid!</p>
+                {errors.email &&
+                  <p className="form-error">Email is not valid!</p>}
               </div>
               <div className="form-group">
                 <label htmlFor="phoneNumber">Phone number</label>
                 <div className="input-wrapper">
                   <span><i className="fa-solid fa-phone"></i></span>
-                  <input id="phoneNumber" name="phoneNumber" type="text" value={values.phoneNumber} onChange={clickHandler} />
+                  <input id="phoneNumber" name="phoneNumber" type="text" value={values.phoneNumber} onChange={clickHandler} onBlur={(e) => minLength(e, 3)} />
                 </div>
-                <p className="form-error">Phone number is not valid!</p>
+                {errors.phoneNumber &&
+                  <p className="form-error">Phone number is not valid!</p>}
               </div>
             </div>
 
@@ -102,21 +115,23 @@ export const UserAdd = ({ onClose, onCreate }) => {
                 <label htmlFor="country">Country</label>
                 <div className="input-wrapper">
                   <span><i className="fa-solid fa-map"></i></span>
-                  <input id="country" name="country" type="text" value={values.country} onChange={clickHandler} />
+                  <input id="country" name="country" type="text" value={values.country} onChange={clickHandler} onBlur={(e) => minLength(e, 2)} />
                 </div>
-                <p className="form-error">
-                  Country should be at least 2 characters long!
-                </p>
+                {errors.country &&
+                  <p className="form-error">
+                    Country should be at least 2 characters long!
+                  </p>}
               </div>
               <div className="form-group">
                 <label htmlFor="city">City</label>
                 <div className="input-wrapper">
                   <span><i className="fa-solid fa-city"></i></span>
-                  <input id="city" name="city" type="text" value={values.city} onChange={clickHandler} />
+                  <input id="city" name="city" type="text" value={values.city} onChange={clickHandler} onBlur={(e) => minLength(e, 3)} />
                 </div>
-                <p className="form-error">
-                  City should be at least 3 characters long!
-                </p>
+                {errors.city &&
+                  <p className="form-error">
+                    City should be at least 3 characters long!
+                  </p>}
               </div>
             </div>
 
@@ -125,11 +140,12 @@ export const UserAdd = ({ onClose, onCreate }) => {
                 <label htmlFor="street">Street</label>
                 <div className="input-wrapper">
                   <span><i className="fa-solid fa-map"></i></span>
-                  <input id="street" name="street" type="text" value={values.street} onChange={clickHandler} />
+                  <input id="street" name="street" type="text" value={values.street} onChange={clickHandler} onBlur={(e) => minLength(e, 3)} />
                 </div>
-                <p className="form-error">
-                  Street should be at least 3 characters long!
-                </p>
+                {errors.street &&
+                  <p className="form-error">
+                    Street should be at least 3 characters long!
+                  </p>}
               </div>
               <div className="form-group">
                 <label htmlFor="streetNumber">Street number</label>
